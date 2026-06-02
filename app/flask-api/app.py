@@ -12,9 +12,9 @@ def get_db_connection():
         try:
             conn = mysql.connector.connect(
                 host=os.environ.get('DB_HOST', 'mysql'),
-                user=os.environ.get('DB_USER', 'flaskuser'),
-                password=os.environ.get('DB_PASSWORD', 'flaskpass'),
-                database=os.environ.get('DB_NAME', 'flaskdb')
+                user=os.environ.get('DB_USER', 'appuser'),
+                password=os.environ.get('DB_PASSWORD', 'apppass'),
+                database=os.environ.get('DB_NAME', 'inventorydb')
             )
             return conn
         except mysql.connector.Error:
