@@ -1,0 +1,45 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: inventorydb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - assignment3-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  flask-api:
+    build: ./flask-api
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - assignment3-net
+    ports:
+      - "5000:5000"
+
+  nginx:
+    build: ./nginx
+    depends_on:
+      - flask-api
+    ports:
+      - "80:80"
+    networks:
+      - assignment3-net
+
+volumes:
+  mysql-data:
+
+networks:
+  assignment3-net:
+    external: true
