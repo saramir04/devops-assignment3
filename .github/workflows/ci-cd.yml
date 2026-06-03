@@ -1,0 +1,22 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/docker-setup
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Flask Image
+        run: docker build -t flask-api ./app/flask-api
+
+      - name: Build Nginx Image
+        run: docker build -t nginx-proxy ./app/nginx
