@@ -27,7 +27,11 @@ kubectl apply -f k8s/flask-service.yml
 kubectl apply -f k8s/nginx-configmap.yml
 kubectl apply -f k8s/nginx-deployment.yml
 kubectl apply -f k8s/nginx-service.yml
+echo "Waiting for deployments..."
 
+kubectl rollout status deployment/mysql -n devops-assignment3
+kubectl rollout status deployment/flask-api -n devops-assignment3
+kubectl rollout status deployment/nginx -n devops-assignment3
 echo ""
 echo "=== Deployment Status ==="
 kubectl get all -n devops-assignment3
